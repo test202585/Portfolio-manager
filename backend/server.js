@@ -44,7 +44,7 @@ const createInitialAdmin = async () => {
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+    const conn = await mongoose.connect("mongodb+srv://testuser202585:Test2025@cluster0.n53qdfu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
