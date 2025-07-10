@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }))
 
 
 const createInitialAdmin = async () => {
-  try {
+  try {``
     const existingAdmin = await User.findOne({ email: "admin@example.com" })
     if (existingAdmin) {
       console.log("Admin user already exists")
