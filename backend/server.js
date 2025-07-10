@@ -42,7 +42,7 @@ const createInitialAdmin = async () => {
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect("mongodb://localhost:27017/portfolio", {
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
