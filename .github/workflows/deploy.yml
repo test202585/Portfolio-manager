@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '18'              # ✅ You missed this in your original
   AWS_REGION: 'us-east-1'
 
 jobs:
@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: frontend-build
-        path: frontend/build/
+        path: frontend/dist/          # ✅ Correct folder for Vite
         retention-days: 1
 
   deploy-frontend:
@@ -64,7 +64,7 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: frontend-build
-        path: build/
+        path: dist/                  # ✅ Download to dist/
 
     - uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -73,7 +73,7 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy to S3
-      run: aws s3 sync build/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+      run: aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete  # ✅ fix path here
 
     - name: Invalidate CloudFront
       run: |
@@ -112,12 +112,12 @@ jobs:
     - name: Notify success
       if: needs.deploy-frontend.result == 'success' && needs.deploy-backend.result == 'success'
       run: |
-        echo "Deployment successful!"
-        echo "Frontend: https://${{ secrets.CLOUDFRONT_DOMAIN }}"
-        echo "Backend: https://${{ secrets.API_DOMAIN }}"
+        echo "✅ Deployment successful!"
+        echo "🌐 Frontend: https://${{ secrets.CLOUDFRONT_DOMAIN }}"
+        echo "🔙 Backend: https://${{ secrets.API_DOMAIN }}"
 
     - name: Notify failure
       if: needs.deploy-frontend.result == 'failure' || needs.deploy-backend.result == 'failure'
       run: |
-        echo "Deployment failed!"
+        echo "❌ Deployment failed!"
         exit 1
