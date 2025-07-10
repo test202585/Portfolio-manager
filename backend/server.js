@@ -44,10 +44,7 @@ const createInitialAdmin = async () => {
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect("mongodb+srv://testuser202585:Test2025@cluster0.n53qdfu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    const conn = await mongoose.connect("mongodb+srv://testuser202585:Test2025@cluster0.n53qdfu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     console.log(`MongoDB Connected: ${conn.connection.host}`)
   } catch (error) {
     console.error("Database connection error:", error)
@@ -102,7 +99,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({
     message: "Something went wrong!",
-    error: process.env.NODE_ENV === "production" ? {} : err.message,
+    error: err.message,
   })
 })
 
@@ -116,7 +113,6 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
-  console.log(`Environment: ${process.env.NODE_ENV || "development"}`)
 })
 
 module.exports = app
